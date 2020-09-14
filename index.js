@@ -1,6 +1,7 @@
 const express = require('express'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
+    Post = require('./models/posts'),
     app = express();
 const port = process.env.PORT || 8000;
 
@@ -11,27 +12,10 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
-//-- setup schema
-const postsSchema = new mongoose.Schema({
-    // _id:String,
-    title: String,
-    image: String, 
-    description: String, 
-    data: {
-        type: Date,
-        default: Date.now()
-    }
-})
-
-//-- save schema to a model
-const Post = new mongoose.model('Post', postsSchema);
-
 //========================ROUTE========================
 
 //-- landing page
 app.get('/', (req, res) => {
-    console.log('This is the roote page!');
     res.render('landing');
 })
 
