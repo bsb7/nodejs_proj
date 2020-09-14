@@ -14,8 +14,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //-- setup schema
 const postsSchema = new mongoose.Schema({
+    // _id:String,
     title: String,
-    image: String
+    image: String, 
+    description: String, 
+    data: {
+        type: Date,
+        default: Date.now()
+    }
 })
 
 //-- save schema to a model
@@ -35,7 +41,7 @@ app.get('/posts', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            console.log(allData);
+            //console.log(allData);
             res.render('posts/index', { posts: allData });
         }
     })
@@ -53,12 +59,22 @@ app.post('/posts', (req, res) => {
         if (err) {
             console.log(err)
         } else {
-            console.log(newlyCreated)
+            //console.log(newlyCreated)
             //-- redirect to posts route
             res.redirect('/posts');
         }
     })
 })
 
+//-- show route - show detail of individual post
+app.get('/posts/:id', (req, res) => { 
+    Post.findById(req.params.id, function (err, foundData) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render('posts/show', {post: foundData})
+       }
+   })
+})
 
 app.listen(port, () => console.log(`Server is listening to port: ${port}`));
