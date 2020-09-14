@@ -1,10 +1,10 @@
 <%- include('../partials/header') %>
 
-<h1>This is the Posts Page</h1>
+
 <div class="row">
   <% posts.forEach(post=>{ %>
-  <div class="col-sm-4 box" style="padding: 2px">
-    <div style="border: 1px solid #d2d2d2">
+  <div class="col-sm-4 box " style="padding: 2px">
+    <div style="border: 1px solid #d2d2d2" class="item">
       <h1 class="display-4"><%= post.title %></h1>
 
       <img
