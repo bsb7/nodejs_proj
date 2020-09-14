@@ -1,0 +1,22 @@
+<%- include('../partials/header') %>
+
+<h1>This is the Posts Page</h1>
+<div class="row">
+  <% posts.forEach(post=>{ %>
+  <div class="col-sm-4 box" style="padding: 2px">
+    <div style="border: 1px solid #d2d2d2">
+      <h1 class="display-4"><%= post.title %></h1>
+
+      <img
+        style="width: 100%; max-height: 300px"
+        class="img-thumbnail"
+        src="<%= post.image %> "
+        alt=""
+      />
+      <p>this is a test</p>
+    </div>
+  </div>
+  <% }) %>
+</div>
+
+<%- include('../partials/footer') %>
