@@ -1,8 +1,12 @@
 const express = require('express'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
+    ObjectID = require('mongodb').ObjectID,
     Post = require('./models/posts'),
+    seedDB = require('./seed'), 
     app = express();
+
+//seedDB();
 const port = process.env.PORT || 8000;
 
 //-- use mongoose to connect to the database
@@ -52,7 +56,8 @@ app.post('/posts', (req, res) => {
 
 //-- show route - show detail of individual post
 app.get('/posts/:id', (req, res) => { 
-    Post.findById(req.params.id, function (err, foundData) {
+    Post.findById(new ObjectID((req.params.id))).populate('comments').exec(function (err, foundData) {
+        console.log(foundData);
         if (err) {
             console.log(err);
         } else {

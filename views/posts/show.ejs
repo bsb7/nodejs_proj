@@ -8,7 +8,9 @@
         alt=""
       />
       <p class="text-center"><%= post.description %> </p>
-
+      <% post.comments.forEach(comment=>{ %>  
+        <p><%= comment.text %> - <span>by:<strong><%= comment.author %></strong>  </span> </p>
+      <% }) %>  
 </div>
    
 <%- include('../partials/footer') %>

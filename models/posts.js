@@ -7,7 +7,13 @@ const postsSchema = new mongoose.Schema({
     title: String,
     image: String,
     description: String,
-    data: {
+    comments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Comment'
+        }
+    ] ,
+    date: {
         type: Date,
         default: Date.now()
     }
