@@ -8,6 +8,7 @@
         alt=""
       />
       <p class="text-center"><%= post.description %> </p>
+      <a href="/posts/<%= post._id %>/comments/new ">Add New Comment</a>
       <% post.comments.forEach(comment=>{ %>  
         <p><%= comment.text %> - <span>by:<strong><%= comment.author %></strong>  </span> </p>
       <% }) %>  

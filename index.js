@@ -3,6 +3,7 @@ const express = require('express'),
     mongoose = require('mongoose'),
     ObjectID = require('mongodb').ObjectID,
     Post = require('./models/posts'),
+    Comment = require('./models/comments'),
     seedDB = require('./seed'), 
     app = express();
 
@@ -57,13 +58,58 @@ app.post('/posts', (req, res) => {
 //-- show route - show detail of individual post
 app.get('/posts/:id', (req, res) => { 
     Post.findById(new ObjectID((req.params.id))).populate('comments').exec(function (err, foundData) {
-        console.log(foundData);
+        //console.log(foundData);
         if (err) {
             console.log(err);
         } else {
             res.render('posts/show', {post: foundData})
        }
    })
+})
+
+
+//==============================
+// COMMENTS ROUTE
+//==============================
+
+//- new  comment form
+app.get('/posts/:id/comments/new', (req, res) => {
+    //-- find post by id
+    Post.findById(new ObjectID(req.params.id), (err, foundData) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.render('comments/new', {post:foundData});            
+        }
+    })
+
+})
+
+//- post route
+app.post('/posts/:id/comments', (req, res) => {
+    // find post using id
+    Post.findById(new ObjectID(req.params.id), (err, foundData) => {
+        if (err) {
+            console.log(err);
+            //redirect to /posts
+            res.redirect('/posts'); 
+        } else {
+            //console.log(req.body.comment);
+            // create new comment
+            Comment.create(req.body.comment, (err, newlyCreatedComment) => {
+                if (err) {
+                    console.log(err)
+                } else {
+                    // connect new comment to post
+                    foundData.comments.push(newlyCreatedComment);
+                    // save the post with comment
+                    foundData.save();
+                    // redirect to /posts
+                    res.redirect(`/posts/${foundData._id}`);
+                }
+            })
+        }
+    })
 })
 
 app.listen(port, () => console.log(`Server is listening to port: ${port}`));
