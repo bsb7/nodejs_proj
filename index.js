@@ -35,6 +35,11 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    next();
+})
 //========================ROUTE========================
 
 //-- landing page
@@ -49,7 +54,7 @@ app.get('/posts', (req, res) => {
             console.log(err);
         } else {
             //console.log(allData);
-            res.render('posts/index', { posts: allData });
+            res.render('posts/index', { posts: allData});
         }
     })
 })
@@ -91,7 +96,7 @@ app.get('/posts/:id', (req, res) => {
 //==============================
 
 //- new  comment form
-app.get('/posts/:id/comments/new', (req, res) => {
+app.get('/posts/:id/comments/new', isLoggedIn, (req, res) => {
     //-- find post by id
     Post.findById(new ObjectID(req.params.id), (err, foundData) => {
         if (err) {
@@ -104,7 +109,7 @@ app.get('/posts/:id/comments/new', (req, res) => {
 })
 
 //- post route
-app.post('/posts/:id/comments', (req, res) => {
+app.post('/posts/:id/comments',isLoggedIn, (req, res) => {
     // find post using id
     Post.findById(new ObjectID(req.params.id), (err, foundData) => {
         if (err) {
@@ -153,5 +158,30 @@ app.post('/register', (req, res) => {
         });
    })
 })
+
+//-- show login form
+app.get('/login', (req, res) => {
+    res.render('login');
+})
+
+//-- handle login logic
+app.post('/login', passport.authenticate('local', {
+    successRedirect: '/posts',
+    failureRedirect: '/login'
+}), (req, res) => {})
+
+//-- add logout route
+app.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/posts');
+})
+
+//-- middleware
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/login');
+}
 
 app.listen(port, () => console.log(`Server is listening to port: ${port}`));
