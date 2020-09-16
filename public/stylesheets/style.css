@@ -21,3 +21,13 @@ form{
   flex-direction: column;
   justify-content: space-evenly;
 }
+
+.test{
+  column-count: 4;
+  column-gap:10px;
+  /* width: 100%; */
+  padding: 10px;
+}
+img{
+  width: 100%;
+}

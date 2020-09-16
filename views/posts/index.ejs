@@ -1,17 +1,15 @@
 <%- include('../partials/header') %> 
-<div class="row">
+<div style="border: 1px solid black;position: fixed; margin-bottom: 2em;width: 100%;height: 10vh;">
+  <div >
+    All Posts
+  </div>
+  
+</div>
+<div  style="border:1px solid black; margin-top:10vh;" class="test">
   <% posts.forEach(post=>{ %>
-  <div class="col-sm-4 box " style="padding: 2px">
-    <div style="border: 1px solid #d2d2d2" class="item">
-      <h1 class="display-4"><%= post.title %></h1>
-
-      <img
-        class="img-thumbnail"
-        src="<%= post.image %> "
-        alt=""
-      />
-      <a href="/posts/<%= post._id  %> ">View More</a>
-    </div>
+  <div style="border: 1px solid black; break-inside: avoid-column; margin-bottom: 10px;">
+   <img src="<%= post.image %> ">
+   <h5><%= post.title %> </h5>
   </div>
   <% }) %>
 </div>
