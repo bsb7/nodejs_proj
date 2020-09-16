@@ -1,6 +1,9 @@
-- add nested route to create comments
-- add comment form
-- use database to add comments
+- add user schema and model
+- add user to the database
 
 
 PACKAGES
+-passport
+-passport-local
+-passport-local-mongoose
+-express-session

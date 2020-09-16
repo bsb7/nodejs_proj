@@ -1,7 +1,12 @@
+const { response } = require('express');
+
 const express = require('express'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
+    passport = require('passport'),
+    LocalStrategy = require('passport-local'),
     ObjectID = require('mongodb').ObjectID,
+    User = require('./models/users'),
     Post = require('./models/posts'),
     Comment = require('./models/comments'),
     seedDB = require('./seed'), 
@@ -16,6 +21,19 @@ mongoose.connect('mongodb://localhost/posts_v1', { useNewUrlParser: true, useUni
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
+
+
+//-- passport config
+app.use(require('express-session')({
+    secret: 'testapp',
+    resave: false,
+    saveUninitialized: false
+}))
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 //========================ROUTE========================
 
@@ -110,6 +128,30 @@ app.post('/posts/:id/comments', (req, res) => {
             })
         }
     })
+})
+
+
+//==============================
+// AUTH ROUTE
+//==============================
+
+//-- register route
+app.get('/register', (req, res) => {
+    res.render('register');
+})
+
+//-- handle sign up logic
+app.post('/register', (req, res) => {
+    const newUser = new User({ username: req.body.username });
+    User.register(newUser, req.body.password, function(err, newlyCreatedUser) {
+        if (err) {
+            console.log(err)
+            res.redirect('register');
+        } 
+        passport.authenticate('local')(req, res, function () {
+            res.redirect('/posts');
+        });
+   })
 })
 
 app.listen(port, () => console.log(`Server is listening to port: ${port}`));
