@@ -1,3 +1,4 @@
+const e = require('express');
 const { response } = require('express');
 
 const express = require('express'),
@@ -66,14 +67,26 @@ app.get('/posts/new', (req, res) => {
 
 //-- post route
 app.post('/posts', (req, res) => {
+    //console.log('Current User:', req.user._id)
     //-- create a new post
     Post.create(req.body, function (err, newlyCreated) {
         if (err) {
             console.log(err)
         } else {
             //console.log(newlyCreated)
+            //-- find user  
+            User.findById(new ObjectID(req.user._id),(err, foundData)=>{
+                if (err) {
+                    console.log(err)
+                } else {
+                    foundData.posts.push(newlyCreated);
+                    foundData.save();
+                    res.redirect(`/posts/user/${req.user._id}`);
+                }
+                // console.log(foundData)
+            })
+            //-- add posts to user
             //-- redirect to posts route
-            res.redirect('/posts');
         }
     })
 })
@@ -85,7 +98,7 @@ app.get('/posts/:id', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            res.render('posts/show', {post: foundData})
+            res.render('posts/show1', {post: foundData})
        }
    })
 })
@@ -183,5 +196,23 @@ function isLoggedIn(req, res, next) {
     }
     res.redirect('/login');
 }
+
+
+//==============================
+// USER ROUTE
+//==============================
+
+app.get('/posts/user/:userId', (req, res) => {
+    //console.log(req.params.userId)
+    User.findById(new ObjectID(req.params.userId)).populate('posts').exec(function(err, foundData){
+        if (err) {
+            console.log(err);
+        } else {
+            res.render('user/show', { user: foundData });
+            // console.log(foundData);
+        }
+    })
+    
+})
 
 app.listen(port, () => console.log(`Server is listening to port: ${port}`));

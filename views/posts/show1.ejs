@@ -1,0 +1,30 @@
+<%- include('../partials/header') %>
+
+<div  style="margin-top: 5vh;padding: 0 3vw;height: 80vh; display: flex;">
+    <div class="img-thumbnail" style="background-image: url(<%=post.image%>) ;
+    height:100%;width: 40%;
+    background-repeat: no-repeat;
+   -webkit-background-size: 100% 100%;
+  -moz-background-size: 100% 100%;
+  -o-background-size: 100% 100%;
+  background-size: 100% 100%;
+    "></div>
+    <div style="padding: 1em 0 0 1em; width: 50%;">
+        <h1><%= post.title %> </h1>
+        <p style="margin: 0;">Author goes here....</p>
+        <span style="margin: 0;font-size: 13px;color: #b3b3b3;"><%= post.date.toDateString() %> </span>
+        <p style="margin-top: 2em;text-align: justify;"><%= post.description %> </p>
+    </div>
+</div>
+<div style="padding: 3vh 3vw;">
+    <h3>Comments</h3>
+<% post.comments.forEach(comment=>{ %>  
+        <p><%= comment.text %> - <span>by:<strong><%= comment.author %></strong>  </span> </p>
+      <% }) %>  
+</div>
+
+  
+  
+     
+   
+<%- include('../partials/footer') %>
