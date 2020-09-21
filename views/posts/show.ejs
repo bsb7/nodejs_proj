@@ -1,18 +1,16 @@
 <%- include('../partials/header') %>
 
-  
-  
-      <img
-        class="img-thumbnail"
-        src="<%= post.image %> "
-        alt=""
-        style="margin-top: 7vh;object-fit: cover;width: auto;height: auto;"
-      />
+<img
+  class="img-thumbnail"
+  src="<%= post.image %> "
+  alt=""
+  style="margin-top: 7vh; object-fit: cover; width: auto; height: auto"
+/>
 
-      <p class="text-center"><%= post.description %> </p>
-      <a href="/posts/<%= post._id %>/comments/new ">Add New Comment</a>
-      <% post.comments.forEach(comment=>{ %>  
-        <p><%= comment.text %> - <span>by:<strong><%= comment.author %></strong>  </span> </p>
-      <% }) %>  
-   
-<%- include('../partials/footer') %>
+<p class="text-center"><%= post.description %></p>
+<a href="/posts/<%= post._id %>/comments/new ">Add New Comment</a>
+<% post.comments.forEach(comment=>{ %>
+<p>
+  <%= comment.text %> - <span>by:<strong><%= comment.author %></strong> </span>
+</p>
+<% }) %> <%- include('../partials/footer') %>

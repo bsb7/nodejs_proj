@@ -1,3 +1,4 @@
-- format landing page and posts page
+- clean up and refactored code
+- added association for comments
 
 PACKAGES

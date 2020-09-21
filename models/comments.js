@@ -5,12 +5,18 @@ let mongoose = require('mongoose');
 const commentSchema = mongoose.Schema({
     // _id:String,
     text: String,
-    author:String,
-    date: { 
+    date: {
         type: Date,
         default: Date.now()
+    },
+    author: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        username: String
     }
 })
 
 //-- save schema to a model
-module.exports =  mongoose.model('Comment', commentSchema);
+module.exports = mongoose.model('Comment', commentSchema);
