@@ -15,7 +15,15 @@
     "
   ></div>
   <div style="padding: 1em 0 0 1em; width: 50%">
-    <h1><%= post.title %></h1>
+    <div style="display: flex; align-items: center">
+      <h1><%= post.title %></h1>
+      <a href="/posts/<%= post._id%>/edit ">
+        <ion-icon
+          name="create-outline"
+          style="margin-left: 1em; color: black; font-size: 20px"
+        ></ion-icon>
+      </a>
+    </div>
     <p style="margin: 0"><span>by:</span><%= post.author.username %></p>
     <span style="margin: 0; font-size: 13px; color: #b3b3b3"
       ><%= post.date.toDateString() %>

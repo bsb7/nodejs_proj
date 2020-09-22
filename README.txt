@@ -1,4 +1,4 @@
-- clean up and refactored code
-- added association for comments
+-added edit route for post
 
 PACKAGES
+- method-override

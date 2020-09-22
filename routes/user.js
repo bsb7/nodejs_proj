@@ -1,5 +1,5 @@
 const express = require('express'),
-    ObjectID = require('mongodb').ObjectID, 
+    ObjectID = require('mongodb').ObjectID,
     User = require('../models/users'),
     router = express.Router();
 

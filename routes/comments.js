@@ -2,6 +2,7 @@ const express = require('express'),
     ObjectID = require('mongodb').ObjectID,
     Post = require('../models/posts'),
     Comment = require('../models/comments'),
+    middleware = require('../middleware'),
     router = express.Router({ mergeParams: true });
 
 //==============================
@@ -9,21 +10,21 @@ const express = require('express'),
 //==============================
 
 //- new  comment form
-// router.get('/new', isLoggedIn, (req, res) => {
-//     //-- find post by id
-//     Post.findById(req.params.id, (err, foundData) => {
-//         if (err) {
-//             console.log(err)
-//         } else {
-//             console.log(foundData)
-//             res.render('comments/new', { post: foundData });
-//         }
-//     })
+router.get('/new', middleware.isLoggedIn, (req, res) => {
+    //-- find post by id
+    Post.findById(req.params.id, (err, foundData) => {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log(foundData)
+            res.render('comments/new', { post: foundData });
+        }
+    })
 
-// })
+})
 
 //- post route
-router.post('/', isLoggedIn, (req, res) => {
+router.post('/', middleware.isLoggedIn, (req, res) => {
     // find post using id
     Post.findById(new ObjectID(req.params.id), (err, foundData) => {
         if (err) {
@@ -55,13 +56,6 @@ router.post('/', isLoggedIn, (req, res) => {
     })
 })
 
-//-- middleware
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/login');
-}
 
 
 module.exports = router;

@@ -2,6 +2,7 @@ const express = require('express'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
     passport = require('passport'),
+    methodOverride = require('method-override'),
     LocalStrategy = require('passport-local'),
     ObjectID = require('mongodb').ObjectID,
     User = require('./models/users'),
@@ -24,7 +25,7 @@ mongoose.connect('mongodb://localhost/posts_v1', { useNewUrlParser: true, useUni
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(methodOverride('_method'));
 
 //-- passport config
 app.use(require('express-session')({

@@ -1,6 +1,7 @@
 const express = require('express'),
     ObjectID = require('mongodb').ObjectID,
     router = express.Router(),// new instance of express router
+    middleware = require('../middleware/index'),
     Post = require('../models/posts'),
     User = require('../models/users');
 
@@ -11,31 +12,22 @@ router.get('/', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            //console.log(allData);
             res.render('posts/index', { posts: allData });
         }
     })
 })
 
 //-- post form - for creating new posts
-router.get('/new', isLoggedIn, (req, res) => {
+router.get('/new', middleware.isLoggedIn, (req, res) => {
     res.render('posts/new');
 })
 
 //-- post route
-router.post('/', isLoggedIn, (req, res) => {
-    //console.log('Current User:', req.user._id)
-    //-- create a new post
-    // let author = {
-    //     id: req.user.id,
-    //     username: req.user.username
-    // }
+router.post('/', middleware.isLoggedIn, (req, res) => {
     Post.create(req.body, function (err, newlyCreated) {
         if (err) {
             console.log(err)
         } else {
-            //console.log(newlyCreated)
-            //-- find user  
             User.findById(new ObjectID(req.user._id), (err, foundData) => {
                 if (err) {
                     console.log(err)
@@ -46,12 +38,8 @@ router.post('/', isLoggedIn, (req, res) => {
                     foundData.posts.push(newlyCreated);
                     foundData.save();
                     res.redirect(`/posts/user/${req.user._id}`);
-                    // console.log(newlyCreated)
                 }
-                // console.log(foundData)
             })
-            //-- add posts to user
-            //-- redirect to posts route
         }
     })
 })
@@ -59,8 +47,6 @@ router.post('/', isLoggedIn, (req, res) => {
 //-- show route - show detail of individual post
 router.get('/:id', (req, res) => {
     Post.findById(new ObjectID(req.params.id)).populate('comments').exec(function (err, foundData) {
-        // User.find({ name: 'Thava' }, null, { sort: { name: 1 } })
-        //console.log(foundData);
         if (err) {
             console.log(err);
         } else {
@@ -69,13 +55,33 @@ router.get('/:id', (req, res) => {
     })
 })
 
-//-- middleware
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/login');
-}
+
+// edit posts
+router.get('/:id/edit', (req, res) => {
+    // console.log(req.params.id);
+    Post.findById(new ObjectID(req.params.id), (err, foundData) => {
+        if (err) {
+            console.log(err)
+        } else {
+            // console.log(foundData);
+            res.render('posts/edit', { post: foundData });
+        }
+    })
+})
+
+// handle edit logic
+router.put('/:id', (req, res) => {
+    // console.log(req.body.post);
+    Post.findByIdAndUpdate(new ObjectID(req.params.id), req.body.post, (err, updatedData) => {
+        if (err) {
+            console.log(err);
+            res.redirect('back');
+        } else {
+            res.redirect(`/posts/${updatedData._id}`);
+        }
+    })
+})
+// update posts
 
 
 module.exports = router;
