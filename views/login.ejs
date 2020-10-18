@@ -1,7 +1,4 @@
-
-<%- include('./partials/header') %>
-
-<h1>Log In</h1>
+<!-- <h1>Log In</h1>
 
 <form action="/login" method="POST">
     <input type="text" name="username" placeholder="Username">
@@ -10,5 +7,28 @@
 </form>
 
 
+ -->
 
-<%- include('./partials/footer') %>
+<%- include('./partials/landingHeader') %>
+   <div class="card  d-flex justify-content-center ">
+    <form action="/login" method="POST" class="d-flex align-items-center justify-content-around flex-column">
+
+    <input type="text" name="username" placeholder="Username" class="">
+    <input type="password" name="password" class="">
+    <input type="submit" value="LOG IN">
+    <div>
+        <span>Not Registered?</span>
+        <span><a href="/register">CREATE AN ACCOUNT</a></span>
+    </div>
+    </form>
+    <!-- <div class="col">
+       <h1>dfjalfjalk</h1> 
+    </div>
+    <div class="col">
+       <h1>dfjalfjalk</h1> 
+    </div>
+    <div class="col">
+       <h1>dfjalfjalk</h1> 
+    </div> -->
+</div>
+<%- include('./partials/landingFooter') %>

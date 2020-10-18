@@ -1,0 +1,43 @@
+<%- include('../partials/mainHeader') %>
+<div id="posts" class="d-flex">
+  <div class="col-md-2 sidebar p-0">
+    <form
+      action="/search"
+      method="POST"
+      class="col d-flex justify-content-center align-items-center p-0 pr-2"
+    >
+      <div class="my-3 d-flex col">
+        <input
+          type="text"
+          class="form-control m-0 border-0 rounded-0"
+          name="text"
+          placeholder="Search Post"
+        />
+
+        <button class="btn m-0 border-0 rounded-0"></button>
+      </div>
+    </form>
+
+    <div class="col">
+      <h5>Recently Added</h5>
+      <% data.forEach(item =>{ %>
+      <div class="col" 
+      style="border: 1px solid black; padding-top: 0 !important;"
+      >
+        <img src="<%= item.image %> " alt="">
+        <h5 style=" border: 1px solid black;  margin: 0 !important;"><%= item.title %></h5>
+        <span style=" border: 1px solid black; margin: 0 !important;" class="p-0 mt-0"><%= moment(item.date).fromNow() %></span>
+      </div>
+      <% }) %>
+    </div>
+    <div class="col">fjalsfja</div>
+    <div class="col">fjalsfja</div>
+    <div class="col">fjalsfja</div>
+  </div>
+  <!-- all posts/ search posts -->
+  <div class="col-md-10 posts d-flex flex-column p-0">
+    <div class="">fsjfal</div>
+    <div class="">fsjfal</div>
+  </div>
+</div>
+<%- include('../partials/footer') %>

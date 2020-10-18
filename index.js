@@ -9,6 +9,7 @@ const express = require('express'),
     Post = require('./models/posts'),
     Comment = require('./models/comments'),
     seedDB = require('./seed'),
+    moment = require('moment'),
     app = express();
 
 const commentRoutes = require('./routes/comments'),
@@ -33,6 +34,7 @@ app.use(require('express-session')({
     resave: false,
     saveUninitialized: false
 }))
+
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
@@ -44,6 +46,8 @@ app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     next();
 })
+app.locals.moment = require('moment');
+
 app.use(authRoutes);
 app.use('/posts/:id/comments', commentRoutes);
 app.use('/posts', postsRoutes);

@@ -8,14 +8,21 @@ const express = require('express'),
 
 //-- posts page / index
 router.get('/', (req, res) => {
+    // res.send('fjfjaslk'
     Post.find({}, function (err, allData) {
+        let recentlyAdded = allData.splice(0, 5);
+        // console.log(recentlyAdded.length)
+        // console.log(recentlyAdded)
+        console.log(allData)
         if (err) {
             console.log(err);
         } else {
-            res.render('posts/index', { posts: allData });
+            // console.log(allData)
+            res.render('posts/index1', { posts: allData, data : recentlyAdded });
         }
     })
 })
+
 
 //-- post form - for creating new posts
 router.get('/new', middleware.isLoggedIn, (req, res) => {

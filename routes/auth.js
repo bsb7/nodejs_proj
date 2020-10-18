@@ -1,5 +1,6 @@
 const express = require('express'),
     User = require('../models/users'),
+    Post = require('../models/posts'),
     passport = require('passport'),
     router = express.Router();
 
@@ -7,6 +8,30 @@ const express = require('express'),
 //-- landing page
 router.get('/', (req, res) => {
     res.render('landing');
+})
+
+// search
+router.post('/search', (req, res) => {
+    // res.send('fjakdfjakl');
+    console.log(req.body.text);
+    if (!req.body.text) {
+        // console.log('no data');
+        res.redirect('/posts')
+    } else {
+        Post.find({ title: { $regex: req.body.text, $options: "i" } }, function (err, foundData) {
+            // console.log("Partial Search Begins");
+            // console.log(foundData);
+            // console.log(foundData.length)
+            if (err) {
+                console.log(err);
+            } else {
+
+                res.render('posts/search');
+
+            }
+        });
+    }
+
 })
 
 

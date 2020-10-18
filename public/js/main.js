@@ -1,3 +1,5 @@
+const links = $('li')
+
 $('#addComment').click(function () {
-    $('#addCommentForm').toggle(500);
+  $('#addCommentForm').toggle(500)
 })

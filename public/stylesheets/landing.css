@@ -8,6 +8,7 @@ body{
   background-image: url('/images/bg.png');
   background-repeat: no-repeat;
   background-size:cover;
+  background-position: center;
   margin-top: 0;
   width: 100vw;
   height:100vh;
@@ -74,3 +75,42 @@ body{
         fill: black;
     }    
 }
+
+.card{
+    box-sizing: content-box;
+    /* background: red; */
+    width: 500px;
+    /* height: 500px; */
+    /* padding: 3em ; */
+    /* margin: 25% ; */
+    padding: 5em 0;
+}
+.card div:first-of-type{
+    /* border: 1px solid black; */
+}
+.card input{
+    margin-bottom: 1em;
+    /* background: orange; */
+    width: 80%;
+    /* padding: 3em; */
+    border: 1px solid #DADCE0;
+    border-radius: 7px;
+    padding: 1em 1em 1em 1em;
+    font-size: 20px;
+}
+
+input[type='submit']{
+    background: #1773E8;
+    color: white;
+}
+
+.card div span:first-of-type{
+    color: #868C91;
+}
+/* .card div span:last-of-type{
+    color: #1773E8;
+} */
+/* .card input:last-of-type{
+    background: white;
+    margin-bottom: 0;
+} */
